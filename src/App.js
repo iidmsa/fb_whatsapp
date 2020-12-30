@@ -22,7 +22,7 @@ function App() {
         });
       }
     })
-  ), [user]);
+  ), []);
 
   return (
     <div className="app">
@@ -30,17 +30,17 @@ function App() {
         <Login/>
       ) : (
         <div className="app__body">
-        <Router>
-        <Sidebar/>
+        <Router>  
           <Switch>
-            
+
             <Route path="/rooms/:roomId" >              
               <Chat/>   
-              
+              <Sidebar/>
             </Route>
 
             <Route path="/" >
-              <Chat/>   
+              <Chat/> 
+              <Sidebar/>  
             </Route>
 
           </Switch>

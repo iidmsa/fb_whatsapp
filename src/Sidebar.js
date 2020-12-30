@@ -1,15 +1,31 @@
 import { Avatar, IconButton } from '@material-ui/core';
 import { Chat, DonutLarge, MoreVert, SearchOutlined } from '@material-ui/icons';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
 import SidebarChat from './SidebarChat';
 import db from './firebase';
 import { useStateValue } from './StateProvider';
+import firebase from "firebase";
+import { actionTypes } from './reducer';
 
 function Sidebar(props) {
 
     const [rooms, setRooms] = useState([]);
+    // const [signedOut, setSignOut] = useState();
     const [{ user }, dispatch] = useStateValue();
+
+    const signOutButtonPressed = () => {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            dispatch({
+                type: actionTypes.SET_USER,
+                user: null,
+            });
+          }).catch(function(error) {
+            // An error happened.
+          });
+    }
 
     useEffect(() => {
         db.collection('rooms').onSnapshot(snapshot => {
@@ -34,7 +50,7 @@ function Sidebar(props) {
                         <Chat/>
                     </IconButton>
                     <IconButton>
-                        <MoreVert/>
+                        <ExitToAppIcon onClick={signOutButtonPressed} />
                     </IconButton>
                 </div>    
             </div>  

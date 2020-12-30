@@ -36,6 +36,7 @@
 }
 
 .sidebar__header {
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     padding: 20px;

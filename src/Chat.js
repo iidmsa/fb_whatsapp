@@ -11,6 +11,7 @@ function Chat(props) {
 
     const [input, setInput] = useState('');
     const [seed, setSeed] = useState('');
+    const [typing, setTyping] = useState(false);
     const { roomId } = useParams();
     const [roomName, setRoomName] = useState("");
     const [messages, setMessages] = useState([]);
@@ -35,6 +36,46 @@ function Chat(props) {
         setSeed(Math.floor(Math.random() * 500));
     }, []);
 
+    useEffect(() => {
+
+        db.collection('rooms')
+          .doc(roomId)
+          .collection('typing')
+          .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: true  })
+
+
+        db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
+            snapshot.docs.map(doc => (
+             //  console.log(doc.data().flag),
+               setTyping(doc.data().flag),
+               console.log(doc.data().flag)
+            ))
+        })
+
+        // console.log("input is changing");
+        // console.log(typing);
+    
+        if (input === '') {
+
+            console.log('input is empty');
+            // console.log(typing);
+
+            db.collection('rooms')
+              .doc(roomId)
+              .collection('typing')
+              .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: false  })
+
+              db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
+                snapshot.docs.map(doc => (
+                   console.log(doc.data().flag),
+                   setTyping(doc.data().flag)
+                ))
+
+              //console.log(typing)
+            })
+        }
+    }, [input]);
+
     const sendMessage = (e) => {
         e.preventDefault();
         console.log(input);
@@ -57,7 +98,7 @@ function Chat(props) {
                 <div className="chat__headerInfo">
                     <h3>{roomName}</h3>
                     <p> Last seen &nbsp; 
-                       { new Date(messages[messages.length - 1]?.timestamp?.toDate()).toUTCString()}
+                       { new Date(messages[messages.length - 1]?.timestamp?.toDate()).toUTCString() }
                     </p>
                 </div>
                 <div className="chat__headerRight">
@@ -85,6 +126,12 @@ function Chat(props) {
                         </span>
                     </p>
                 ))}
+
+                {typing ? (
+                        <div className= "chat__message" >
+                            Typing...
+                        </div>
+                   ) : (<div></div>)}
             </div>
             <div className="chat__footer">
                 <InsertEmoticon/>
