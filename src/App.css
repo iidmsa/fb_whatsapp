@@ -7,9 +7,16 @@
 
 .app__body {
   display: flex;
+  overflow: scroll;
   background-color: #ededed;
   margin-top: -50px;
   height: 90vh;
   width: 90vw;
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.7);
+}
+
+@media only screen and (max-width: 800px) {
+  .app__body {
+    display: block;
+  }
 }
