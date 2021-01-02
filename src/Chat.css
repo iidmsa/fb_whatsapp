@@ -53,6 +53,10 @@
     margin-bottom: 30px;
 }
 
+.chat--invisible {
+    display: none;
+}
+
 .chat__reciever {
     margin-left: auto;
     background-color: #dcf8c6;

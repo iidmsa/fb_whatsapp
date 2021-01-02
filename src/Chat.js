@@ -6,16 +6,18 @@ import './Chat.css';
 import db from './firebase';
 import { useStateValue } from './StateProvider';
 import firebase from "firebase";
+import { actionTypes } from './reducer';
 
 function Chat(props) {
 
     const [input, setInput] = useState('');
     const [seed, setSeed] = useState('');
+    var [docID, setDocId] = useState('test');
     const [typing, setTyping] = useState(false);
     const { roomId } = useParams();
     const [roomName, setRoomName] = useState("");
     const [messages, setMessages] = useState([]);
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user, isTyping }, dispatch] = useStateValue();
 
     useEffect (() => {
         if (roomId) {
@@ -38,42 +40,135 @@ function Chat(props) {
 
     useEffect(() => {
 
-        db.collection('rooms')
-          .doc(roomId)
-          .collection('typing')
-          .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: true  })
+        if (input != '') {
+            setTyping(true);
+            dispatch({
+                type: actionTypes.SET_TYPING,
+                isTyping: true,
+            });
+        } else {
+            dispatch({
+                type: actionTypes.SET_TYPING,
+                isTyping: false,
+            });
+        }
 
 
-        db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
-            snapshot.docs.map(doc => (
-             //  console.log(doc.data().flag),
-               setTyping(doc.data().flag),
-               console.log(doc.data().flag)
-            ))
-        })
+        // db.collection('rooms').doc(roomId)
+        //     .collection('messages').add({
+        //         message: input,
+        //         name: user.displayName,
+        //         typing: true,
+        //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        //     });
+
+
+    //    console.log(db.collection('rooms').doc().id);
+                   
+            //   setDocId( db.collection('rooms').doc );
+
+
+            // db.collection('rooms').doc(roomId)
+            //   .collection('messages')
+            //   .orderBy('timestamp', 'desc').limit(2)
+            //   .onSnapshot(snapshot => (
+            //     snapshot.docs.map((doc) => { 
+            //         console.log(doc.id);
+            //         if (doc.data().typing === true) {
+            //             setTyping(true);
+            //         } 
+            //         if (input === '' ) {
+            //             db.collection('rooms')
+            //             .doc(roomId)
+            //             .collection('messages')
+            //             .doc(doc.id).update({ typing: "false"  })
+            //             setTyping(false);
+            //         }
+                    
+            //     } ) 
+            // ));
+
+            // db.collection('rooms')
+            //   .doc(roomId)
+            //   .collection('messages')
+            //   .doc('7LGChzUW5OvbTRLHr2Fy').set({ name: "true"  })
+
+
+
+            //   .orderBy('timestamp', 'desc').limit(1).id );
+            //   .onSnapshot(snapshot => (
+            //       snapshot.docs.map((doc) => {  doc.data() ; console.log ( doc.set({ typing: false }))}  )  
+                  
+            // ));
+
+
+
+
+
+        
+              
+
+
+
+
+
+
+
+
+
+
+        console.log(input)
+        // db.collection('rooms')
+        //   .doc(roomId)
+        //   .collection('typing')
+        //   .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: true  })
+
+
+        // db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
+        //     snapshot.docs.map(doc => (
+        //      //  console.log(doc.data().flag),
+        //        setTyping(doc.data().flag),
+        //       console.log(doc.data().flag)
+        //     ))
+        // })
 
         // console.log("input is changing");
         // console.log(typing);
     
-        if (input === '') {
+        // if (input === '') {
 
-            console.log('input is empty');
+            // console.log('input is empty');
             // console.log(typing);
 
-            db.collection('rooms')
-              .doc(roomId)
-              .collection('typing')
-              .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: false  })
+            // db.collection('rooms')
+            //   .doc(roomId)
+            //   .collection('typing')
+            //   .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: false  })
 
-              db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
-                snapshot.docs.map(doc => (
-                   console.log(doc.data().flag),
-                   setTyping(doc.data().flag)
-                ))
+            //   db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
+            //     snapshot.docs.map(doc => (
+            //     //    console.log(doc.data().flag),
+            //        setTyping(doc.data().flag)
+            //     ))
 
               //console.log(typing)
-            })
-        }
+            // })
+        // }
+
+
+
+        // db.collection('rooms').doc(roomId)
+        //       .collection('messages').add({
+        //         message: input,
+        //         name: user.displayName,
+        //         typing: false,
+        //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        //       });
+
+
+
+
+
     }, [input]);
 
     const sendMessage = (e) => {
@@ -117,6 +212,7 @@ function Chat(props) {
 
                 {messages.map((message) => (
                     <p className={`chat__message ${message.name === user.displayName && 'chat__reciever'} `}>
+
                         <span className="chat__name" >
                             {message.name}
                         </span>
@@ -127,17 +223,30 @@ function Chat(props) {
                     </p>
                 ))}
 
-                {typing ? (
-                        <div className= "chat__message" >
-                            Typing...
-                        </div>
+                
+                    <div>
+                         {isTyping ? (
+                            <div className= {`chat__message ${messages[messages.length - 1].name === user.displayName && 'chat--invisible'} `} >
+                            {user.displayName} is Typing...
+                            </div>
                    ) : (<div></div>)}
+                    </div>
+                
+
             </div>
             <div className="chat__footer">
                 <InsertEmoticon/>
                 <form>
                     <input value={input} onChange={e => {
                         setInput(e.target.value)
+                        
+
+
+
+
+
+
+
                     }} placeholder="Type a message..." type="text"></input>
                     <button onClick={sendMessage} type="submit"></button>
                 </form>

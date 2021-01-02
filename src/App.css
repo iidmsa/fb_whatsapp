@@ -17,6 +17,6 @@
 
 @media only screen and (max-width: 800px) {
   .app__body {
-    display: block;
+    flex-direction: column-reverse;
   }
 }

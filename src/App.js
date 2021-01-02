@@ -34,13 +34,13 @@ function App() {
           <Switch>
 
             <Route path="/rooms/:roomId" >              
-              <Chat/>   
               <Sidebar/>
+              <Chat/>   
             </Route>
 
             <Route path="/" >
-              <Chat/> 
-              <Sidebar/>  
+              <Sidebar/>
+              <Chat/>  
             </Route>
 
           </Switch>
