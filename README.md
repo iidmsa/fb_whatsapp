@@ -1,4 +1,4 @@
-### WhatsApp JS | [Demo](https://fb-whatsapp-17ac0.web.app/) 
+### WhatsApp JS | [Demo](https://fb-whatsapp-17ac0.web.app/){:target="_blank"}
 
 A simple a full stack, fully-featured messenger application architected using React, Firebase & Material-UI.
 
