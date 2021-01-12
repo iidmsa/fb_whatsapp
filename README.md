@@ -1,4 +1,4 @@
-### WhatsApp JS | <a href="https://fb-whatsapp-17ac0.web.app/" target="_blank">Demo: https://fb-whatsapp-17ac0.web.app/</a>
+### WhatsApp JS | <a href="https://fb-whatsapp-17ac0.web.app/" target="_blank">Demo</a>
 
 A simple a full stack, fully-featured messenger application architected using React, Firebase & Material-UI.
 
