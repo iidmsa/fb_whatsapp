@@ -91,82 +91,11 @@ function Chat(props) {
       removeTyping();
     }
 
-    // db.collection('rooms').doc(roomId)
-    //   .collection('messages')
-    //   .orderBy('timestamp', 'desc').limit(2)
-    //   .onSnapshot(snapshot => (
-    //     snapshot.docs.map((doc) => {
-    //         console.log(doc.id);
-    //         if (doc.data().typing === true) {
-    //             setTyping(true);
-    //         }
-    //         if (input === '' ) {
-    //             db.collection('rooms')
-    //             .doc(roomId)
-    //             .collection('messages')
-    //             .doc(doc.id).update({ typing: "false"  })
-    //             setTyping(false);
-    //         }
-
-    //     } )
-    // ));
-
     db.collection("rooms")
       .doc(roomId)
       .collection("messages")
       .doc("7LGChzUW5OvbTRLHr2Fy")
       .set({ name: "true" });
-
-    //   .orderBy('timestamp', 'desc').limit(1).id );
-    //   .onSnapshot(snapshot => (
-    //       snapshot.docs.map((doc) => {  doc.data() ; console.log ( doc.set({ typing: false }))}  )
-
-    // ));
-
-    console.log(input);
-    // db.collection('rooms')
-    //   .doc(roomId)
-    //   .collection('typing')
-    //   .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: true  })
-
-    // db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
-    //     snapshot.docs.map(doc => (
-    //      //  console.log(doc.data().flag),
-    //        setTyping(doc.data().flag),
-    //       console.log(doc.data().flag)
-    //     ))
-    // })
-
-    // console.log("input is changing");
-    // console.log(typing);
-
-    // if (input === '') {
-
-    // console.log('input is empty');
-    // console.log(typing);
-
-    // db.collection('rooms')
-    //   .doc(roomId)
-    //   .collection('typing')
-    //   .doc('VjntTj6WAt2Iqr6H7Jbs').set({ flag: false  })
-
-    //   db.collection('rooms').doc(roomId).collection('typing').onSnapshot(snapshot => {
-    //     snapshot.docs.map(doc => (
-    //     //    console.log(doc.data().flag),
-    //        setTyping(doc.data().flag)
-    //     ))
-
-    //console.log(typing)
-    // })
-    // }
-
-    // db.collection('rooms').doc(roomId)
-    //       .collection('messages').add({
-    //         message: input,
-    //         name: user.displayName,
-    //         typing: false,
-    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //       });
   }, [input]);
 
   useEffect(() => {
